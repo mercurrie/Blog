@@ -17,7 +17,7 @@ def home():
 
 
 @app.route(SHOW_POST_PATH)
-def show_post(index):
+def show_post(index: str):
     requested_post = None
     blog_posts = blog_response()
 
