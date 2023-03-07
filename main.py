@@ -1,35 +1,54 @@
+from flask import Flask, render_template, request
+import smtplib
 import requests
-from flask import Flask, render_template
+
+posts = requests.get("https://api.npoint.io/c790b4d5cab58020d391").json()
+OWN_EMAIL = "YOUR OWN EMAIL ADDRESS"
+OWN_PASSWORD = "YOUR OWN EMAIL PASSWORD"
 
 app = Flask(__name__)
-INDEX_HTML = "index.html"
-POST_HTML = "post.html"
-BLOG_API = "https://api.npoint.io/c790b4d5cab58020d391"
-HOME_PATH = '/'
-POST_ID_KEY = "id"
-SHOW_POST_PATH = "/path/<int:index>"
 
 
-@app.route(HOME_PATH)
-def home():
-    blog_posts = blog_response()
-    return render_template(INDEX_HTML, posts=blog_posts)
+@app.route('/')
+def get_all_posts():
+    return render_template("index.html", all_posts=posts)
 
 
-@app.route(SHOW_POST_PATH)
-def show_post(index: str):
+@app.route("/post/<int:index>")
+def show_post(index):
     requested_post = None
-    blog_posts = blog_response()
-
-    for post in blog_posts:
-        if index == post[POST_ID_KEY]:
-            requested_post = post
-    return render_template(POST_HTML, blog_post=requested_post)
+    for blog_post in posts:
+        if blog_post["id"] == index:
+            requested_post = blog_post
+    return render_template("post.html", post=requested_post)
 
 
-def blog_response():
-    return requests.get(BLOG_API).json()
+@app.route("/about")
+def about():
+    return render_template("about.html")
+
+
+@app.route("/contact", methods=["GET", "POST"])
+def contact():
+    if request.method == "POST":
+        data = request.form
+        data = request.form
+        send_email(data["name"], data["email"], data["phone"], data["message"])
+        return render_template("contact.html", msg_sent=True)
+    return render_template("contact.html", msg_sent=False)
+
+
+def send_email(name, email, phone, message):
+    email_message = f"Subject:New Message\n\nName: {name}\nEmail: {email}\nPhone: {phone}\nMessage:{message}"
+    with smtplib.SMTP("smtp.gmail.com") as connection:
+        connection.starttls()
+        connection.login(OWN_EMAIL, OWN_PASSWORD)
+        connection.sendmail(OWN_EMAIL, OWN_EMAIL, email_message)
 
 
 if __name__ == "__main__":
+    #if you want your web server to run in repl.it, use the next line:
+    # app.run(host='0.0.0.0', port=8080)
+
+    #If you want your web server to run locally on your computer, use this:
     app.run(debug=True)
