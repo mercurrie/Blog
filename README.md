@@ -95,9 +95,6 @@ Contributions are welcome! If you'd like to contribute to this project, please f
 
 Please ensure your code follows the project's coding standards and includes appropriate documentation.
 
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ---
 
