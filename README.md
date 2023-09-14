@@ -45,29 +45,19 @@ To get a local copy of this project up and running, follow these steps:
 3. **Install the required dependencies**:
 
    ```
-   npm install
+   pip install -r requirements.txt
    ```
 
-4. **Set up the database**:
-
-   - Create a new MySQL database.
-   - Copy the `.env.example` file to `.env` and update the database configuration in the `.env` file with your own database credentials.
 
 5. **Run the migrations**:
 
    ```
-   npm run migrate
-   ```
-
-6. **Start the development server**:
-
-   ```
-   npm run dev
+   python main.py
    ```
 
 7. **Access the application**:
 
-   Open your web browser and go to `http://localhost:3000`.
+   click http link in terminal or copy paste into browser search bar(Ex. http://127.0.0.1:5000)
 
 ## Usage
 
