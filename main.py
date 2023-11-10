@@ -51,4 +51,4 @@ if __name__ == "__main__":
     # app.run(host='0.0.0.0', port=8080)
 
     #If you want your web server to run locally on your computer, use this:
-    app.run(debug=True)
+    app.run()
